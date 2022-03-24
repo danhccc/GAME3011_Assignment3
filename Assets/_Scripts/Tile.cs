@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     public Image icon;
     public Button button;
 
-    public Item item
+    public Item Item
     {
         get => _item;
         set
@@ -30,12 +30,7 @@ public class Tile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        button.onClick.AddListener(() => Board.Instance.Select(this));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
