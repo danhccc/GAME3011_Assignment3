@@ -50,6 +50,21 @@ public class Board : MonoBehaviour
 
     }
 
+
+    private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.A)) 
+            return;
+
+        foreach (var connectedTile in Tiles[0, 0].GetConnectedTiles())
+        {
+            connectedTile.icon.transform.DOScale(1.25f, TweenDuration).Play();
+            print("?");
+        }
+            
+        
+    }
+
     public async void Select(Tile tile)
     {
         if (!_selection.Contains(tile)) 
@@ -95,4 +110,15 @@ public class Board : MonoBehaviour
         tile1.Item = tile2.Item;
         tile2.Item = tile1Item;
     }
+
+    private void CanPop()
+    {
+        
+    }
+
+    private void Pop()
+    {
+
+    }
+
 }
