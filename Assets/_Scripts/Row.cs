@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Row : MonoBehaviour
 {
+    public Tile[] tiles;
+
+
     // Start is called before the first frame update
     void Start()
     {
