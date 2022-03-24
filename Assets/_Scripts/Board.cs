@@ -30,7 +30,14 @@ public class Board : MonoBehaviour
         {
             for (var x = 0; x < Width; x++)
             {
-                Tiles[x, y] = rows[y].tiles[x];
+                var tile = rows[y].tiles[x];
+
+                tile.x = x; 
+                tile.y = y;
+
+                tile.item = ItemDataBase.Items[Random.Range(0, ItemDataBase.Items.Length)];
+
+                Tiles[x, y] = tile;
             }
         }
 
