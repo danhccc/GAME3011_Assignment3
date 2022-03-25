@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599a669529aa18344beec4feae1ce743, type: 3}
   m_Name: Duck
   m_EditorClassIdentifier: 
-  value: 5
+  value: 10
   sprite: {fileID: 21300000, guid: e54e1adaa2f5b0147a5ce820a6788f12, type: 3}

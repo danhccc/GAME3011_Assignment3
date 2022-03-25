@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIBehaviours : MonoBehaviour
 {
@@ -27,6 +28,6 @@ public class UIBehaviours : MonoBehaviour
 
     public void resetGame()
     {
-        print("Reset game function BRRRRRRRRRR");
+        SceneManager.LoadScene("SampleScene");
     }
 }

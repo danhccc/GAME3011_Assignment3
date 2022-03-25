@@ -68,16 +68,10 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        //if (!Input.GetKeyDown(KeyCode.A)) 
-        //    return;
-
-        //foreach (var connectedTile in Tiles[0, 0].GetConnectedTiles())
-        //{
-        //    connectedTile.icon.transform.DOScale(1.25f, TweenDuration).Play();
-        //}
 
         if (GameStarted)
         {
+            Time.timeScale = 1;
             runTimer();
             if (timer <= 0 || moveLeft <= 0)
             {
@@ -241,5 +235,10 @@ public class Board : MonoBehaviour
 
         gameoverPanel.SetActive(true);
         gameoverScore.text = ScoreCalculator.Instance._score.ToString();
+    }
+
+    public void setupDifficulty()
+    {
+
     }
 }

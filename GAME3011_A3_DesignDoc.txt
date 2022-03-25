@@ -1,0 +1,24 @@
+GAME3011 - Portfolio Development - Assignment 3
+************************************************
+Made by:
+Hancong Zhang   - 101234068
+Jing Yuan Cheng - 101257237
+************************************************
+This is a Match-3 mini game project that can be use in any simular 2D art style games.
+
+For the project, a button or trigger is require to activate the minigame, After the trigger
+happened, random items will be place into the board. You will have a fixed amount of time and
+moves to proceed and finish the game, after you spend all your moves or timer reach 0, game 
+will end and a final score will be display, and you will have the option to restart.
+
+*Not like other traditional Match-3 games, in this project, matching does not limit to horizontal
+or vertical only, but works in either ways. As long as the tiles connected, they will be consider
+matching.*
+
+Items include: Cat, Dog, Mouse, Panda, Giraffe, Duck, Frog, Pig
+Each item worth 10 points.
+
+Difficulty: 
+	Easy   - 3 different items
+	Medium - 5 different items
+	Hard   - 8 different items

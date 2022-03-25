@@ -61,7 +61,6 @@ public class Tile : MonoBehaviour
                 continue;
 
             result.AddRange(linkedTile.GetConnectedTiles(exclude));
-            print("1");
         }
         
         return result;
