@@ -5,10 +5,21 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using Random = UnityEngine.Random;
 
 public class Board : MonoBehaviour
 {
+    public bool GameStarted;
+    public float timer;
+    public int moveLeft;
+
+    [Header("References")]
+    [SerializeField] public TextMeshProUGUI timer_Text;
+    [SerializeField] public TextMeshProUGUI move_Text;
+    [SerializeField] public GameObject gameoverPanel;
+    [SerializeField] public TextMeshProUGUI gameoverScore;
+
     // Singleton
     public static Board Instance { get; private set; }
 
@@ -25,6 +36,7 @@ public class Board : MonoBehaviour
 
     [SerializeField] private AudioClip popSound;
     [SerializeField] private AudioSource audioSource;
+
 
     private void Awake()
     {
@@ -51,25 +63,30 @@ public class Board : MonoBehaviour
                 Tiles[x, y] = tile;
             }
         }
-
-
     }
 
 
     private void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.A)) 
-            return;
+        //if (!Input.GetKeyDown(KeyCode.A)) 
+        //    return;
 
-        foreach (var connectedTile in Tiles[0, 0].GetConnectedTiles())
+        //foreach (var connectedTile in Tiles[0, 0].GetConnectedTiles())
+        //{
+        //    connectedTile.icon.transform.DOScale(1.25f, TweenDuration).Play();
+        //}
+
+        if (GameStarted)
         {
-            connectedTile.icon.transform.DOScale(1.25f, TweenDuration).Play();
-            print("?");
+            runTimer();
+            if (timer <= 0 || moveLeft <= 0)
+            {
+                Gameover();
+            }
+            showMoves();
         }
-            
-        
     }
-
+    
     public async void Select(Tile tile)
     {
         if (!_selection.Contains(tile))
@@ -87,9 +104,6 @@ public class Board : MonoBehaviour
                 _selection.Add(tile);
             }
         }
-            
-
-        
 
         if (_selection.Count < 2) 
             return;
@@ -100,10 +114,15 @@ public class Board : MonoBehaviour
 
         // If we can pop after swapping, keep the pop; otherwise swap back
         if (CanPop())
+        {
             Pop();
+            moveLeft -= 1;
+        }
+            
         else
         {
             await Swap(_selection[0], _selection[1]);
+            moveLeft -= 1;
         }
 
         _selection.Clear();
@@ -138,6 +157,8 @@ public class Board : MonoBehaviour
         var tile1Item = tile1.Item;
         tile1.Item = tile2.Item;
         tile2.Item = tile1Item;
+
+        
     }
 
     // Define the minimum and maximum amount of tiles that needs to pop
@@ -202,4 +223,23 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void runTimer()
+    {
+        timer -= Time.deltaTime;
+        timer_Text.text = "Timer: " + timer.ToString("F0");
+    }
+
+    public void showMoves()
+    {
+        move_Text.text = "Move: " + moveLeft.ToString();
+    }
+
+    public void Gameover()
+    {
+        GameStarted = false;
+        Time.timeScale = 0;
+
+        gameoverPanel.SetActive(true);
+        gameoverScore.text = ScoreCalculator.Instance._score.ToString();
+    }
 }

@@ -9,7 +9,8 @@ public class ScoreCalculator : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    private int _score;
+
+    public int _score;
     public int Score 
     {
         get => _score;
@@ -21,9 +22,8 @@ public class ScoreCalculator : MonoBehaviour
 
             _score = value;
 
-            scoreText.SetText($"Score = {_score}");
+            scoreText.SetText($"Score: {_score}");
         }
-     
     }
 
 
