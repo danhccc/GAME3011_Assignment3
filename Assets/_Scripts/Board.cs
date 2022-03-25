@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 using System.Threading.Tasks;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 public class Board : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class Board : MonoBehaviour
     private readonly List<Tile> _selection = new List<Tile>();
 
     private const float TweenDuration = 0.25f;
+
+    [SerializeField] private AudioClip popSound;
+    [SerializeField] private AudioSource audioSource;
 
     private void Awake()
     {
@@ -67,8 +72,24 @@ public class Board : MonoBehaviour
 
     public async void Select(Tile tile)
     {
-        if (!_selection.Contains(tile)) 
-            _selection.Add(tile);
+        if (!_selection.Contains(tile))
+        {
+            if (_selection.Count > 0)   // If player already select one tile
+            {
+                if (Array.IndexOf(_selection[0].AllLinkedTiles, tile) != -1)    // Check if the second tile is tnear the first tile
+                {
+                    _selection.Add(tile);
+                }
+                else print("Invalid tile! Please choose a near by tile.");
+            }
+            else
+            {
+                _selection.Add(tile);
+            }
+        }
+            
+
+        
 
         if (_selection.Count < 2) 
             return;
@@ -76,6 +97,14 @@ public class Board : MonoBehaviour
         Debug.Log($"Selected tiles at {_selection[0].x}, {_selection[0].y}) and ({_selection[1].x}, {_selection[1].y})");
 
         await Swap(_selection[0], _selection[1]);
+
+        // If we can pop after swapping, keep the pop; otherwise swap back
+        if (CanPop())
+            Pop();
+        else
+        {
+            await Swap(_selection[0], _selection[1]);
+        }
 
         _selection.Clear();
     }
@@ -111,14 +140,66 @@ public class Board : MonoBehaviour
         tile2.Item = tile1Item;
     }
 
-    private void CanPop()
+    // Define the minimum and maximum amount of tiles that needs to pop
+    private bool CanPop()
     {
-        
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                if (Tiles[x, y].GetConnectedTiles().Skip(1).Count() >= 2)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
-    private void Pop()
+    private async void Pop()
     {
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                var tile = Tiles[x, y];
 
+                var connectedTiles = tile.GetConnectedTiles();
+
+                // After skipping the first one, if more than 2 tiles connected, continue:
+                if (connectedTiles.Skip(1).Count() < 2)
+                    continue;
+
+                var deflateSequence = DOTween.Sequence();
+
+                foreach (var _connectedTile in connectedTiles)
+                {
+                    deflateSequence.Join(_connectedTile.icon.transform.DOScale(Vector3.zero, TweenDuration));
+                }
+
+                // Matching interactive
+                audioSource.PlayOneShot(popSound);
+                ScoreCalculator.Instance.Score += tile.Item.value * connectedTiles.Count;
+
+
+                await deflateSequence.Play().AsyncWaitForCompletion();
+
+
+                var inflateSequence = DOTween.Sequence();
+
+                foreach (var _connectedTile in connectedTiles)
+                {
+                    _connectedTile.Item = ItemDataBase.Items[Random.Range(0, ItemDataBase.Items.Length)];
+
+                    inflateSequence.Join(_connectedTile.icon.transform.DOScale(Vector3.one, TweenDuration));
+                }
+
+                await inflateSequence.Play().AsyncWaitForCompletion();
+
+                x = y = 0;
+            }
+        }
     }
 
 }
