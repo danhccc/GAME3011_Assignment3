@@ -14,6 +14,10 @@ public class Board : MonoBehaviour
     public float timer;
     public int moveLeft;
 
+    [Header("Difficulty")]
+    public Difficulty _difficulty;
+     
+
     [Header("References")]
     [SerializeField] public TextMeshProUGUI timer_Text;
     [SerializeField] public TextMeshProUGUI move_Text;
@@ -162,7 +166,7 @@ public class Board : MonoBehaviour
         {
             for (var x = 0; x < Width; x++)
             {
-                if (Tiles[x, y].GetConnectedTiles().Skip(1).Count() >= 2)
+                if (Tiles[x, y].GetConnectedTiles().Skip(1).Count() >= (int)_difficulty)
                 {
                     return true;
                 }
@@ -183,7 +187,7 @@ public class Board : MonoBehaviour
                 var connectedTiles = tile.GetConnectedTiles();
 
                 // After skipping the first one, if more than 2 tiles connected, continue:
-                if (connectedTiles.Skip(1).Count() < 2)
+                if (connectedTiles.Skip(1).Count() < (int)_difficulty)
                     continue;
 
                 var deflateSequence = DOTween.Sequence();
@@ -241,4 +245,12 @@ public class Board : MonoBehaviour
     {
 
     }
+}
+
+
+public enum Difficulty
+{
+    EASY = 2,
+    NORMAL = 3,
+    HARD = 4
 }

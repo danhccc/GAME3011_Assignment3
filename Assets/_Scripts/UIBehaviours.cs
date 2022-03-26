@@ -30,4 +30,25 @@ public class UIBehaviours : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+
+    public void OnEasyModeButtonPressed()
+    {
+        ToggleMiniGame.SetActive(true);
+        Board.Instance.GameStarted = true;
+        Board.Instance._difficulty = Difficulty.EASY;
+    }
+    
+    public void OnNormalModeButtonPressed()
+    {
+        ToggleMiniGame.SetActive(true);
+        Board.Instance.GameStarted = true;
+        Board.Instance._difficulty = Difficulty.NORMAL;
+    }
+    
+    public void OnHardModeButtonPressed()
+    {
+        ToggleMiniGame.SetActive(true);
+        Board.Instance.GameStarted = true;
+        Board.Instance._difficulty = Difficulty.HARD;
+    }
 }
