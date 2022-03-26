@@ -21,4 +21,4 @@ Each item worth 10 points.
 Difficulty: 
 	Easy   - match 3
 	Medium - match 4
-	Hard   - match 5
+	Hard   - match 5 icons wont swap back if they reaches a "match 4" state, to prevent soft lock in this difficulty.
