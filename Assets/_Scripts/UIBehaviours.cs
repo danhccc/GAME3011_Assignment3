@@ -36,6 +36,7 @@ public class UIBehaviours : MonoBehaviour
         ToggleMiniGame.SetActive(true);
         Board.Instance.GameStarted = true;
         Board.Instance._difficulty = Difficulty.EASY;
+        Board.Instance.difficultyOffest = (int)Difficulty.EASY;
     }
     
     public void OnNormalModeButtonPressed()
@@ -43,6 +44,7 @@ public class UIBehaviours : MonoBehaviour
         ToggleMiniGame.SetActive(true);
         Board.Instance.GameStarted = true;
         Board.Instance._difficulty = Difficulty.NORMAL;
+        Board.Instance.difficultyOffest = (int)Difficulty.NORMAL;
     }
     
     public void OnHardModeButtonPressed()
@@ -50,5 +52,6 @@ public class UIBehaviours : MonoBehaviour
         ToggleMiniGame.SetActive(true);
         Board.Instance.GameStarted = true;
         Board.Instance._difficulty = Difficulty.HARD;
+        Board.Instance.difficultyOffest = (int)Difficulty.NORMAL;
     }
 }

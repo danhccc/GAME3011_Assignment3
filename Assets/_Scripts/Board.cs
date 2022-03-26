@@ -16,6 +16,7 @@ public class Board : MonoBehaviour
 
     [Header("Difficulty")]
     public Difficulty _difficulty;
+    [HideInInspector] public int difficultyOffest;
      
 
     [Header("References")]
@@ -166,7 +167,7 @@ public class Board : MonoBehaviour
         {
             for (var x = 0; x < Width; x++)
             {
-                if (Tiles[x, y].GetConnectedTiles().Skip(1).Count() >= (int)_difficulty)
+                if (Tiles[x, y].GetConnectedTiles().Skip(1).Count() >= difficultyOffest)
                 {
                     return true;
                 }
